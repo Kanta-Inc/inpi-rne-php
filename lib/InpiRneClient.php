@@ -5,7 +5,7 @@ namespace InpiRne;
 /**
  * Class InpiRne
  */
-class InpiRne
+class InpiRneClient
 {
     /** @var string The INPI RNE API token to be used for requests. */
     public static $apiToken;

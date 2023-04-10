@@ -3,21 +3,20 @@
 namespace InpiRne;
 
 /**
- * @internal
- * @covers \InpiRne\InpiRne
+ * Class InpiRneTest
  */
-final class InpiRneTest extends \PHPUnit\Framework\TestCase
+final class InpiRneClientTest extends \PHPUnit\Framework\TestCase
 {
     // test
     public function testGetApiToken()
     {
         // create new InpiRne instance
-        $inpiRne = new InpiRne();
+        $inpiRne = new InpiRneClient();
 
         // set api token
         $inpiRne->setApiToken('test_123');
 
 
-        $this->assertSame('test_123', InpiRne::getApiToken());
+        $this->assertSame('test_123', InpiRneClient::getApiToken());
     }
 }
