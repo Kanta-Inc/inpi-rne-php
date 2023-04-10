@@ -1,0 +1,39 @@
+{
+    "name": "kanta-inc/inpi-rne-php",
+    "description": "PHP library for the INPI RNE API",
+    "keywords": [
+        "kanta",
+        "inpi",
+        "rne",
+        "api"
+    ],
+    "type": "library",
+    "homepage": "https://kanta.fr/open-source",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kanta and contributors",
+            "homepage": "https://github.com/Kanta-Inc/inpi-rne-php/contributors"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7 || ^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "InpiRne\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InpiRne\\": [
+                "tests/",
+                "tests/InpiRne/"
+            ]
+        }
+    }
+}
