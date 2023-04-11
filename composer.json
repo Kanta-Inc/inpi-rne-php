@@ -18,19 +18,25 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.4.0"
+        "php": ">=7.4.0",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7 || ^9.0"
     },
     "autoload": {
         "psr-4": {
-            "InpiRne\\": "lib/"
+            "InpiRne\\": [
+                "src/"
+            ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "InpiRne\\": "tests/"
+            "InpiRne\\": [
+                "tests/"
+            ]
         }
     }
 }
