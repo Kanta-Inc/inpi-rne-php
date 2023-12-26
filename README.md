@@ -7,7 +7,7 @@ This version is based on the INPI Documentation located in data folder of this r
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install this package :
-composer require 
+composer require kanta-inc/inpi-rne-php
 
 ## Usage
 Here'is a fast example to get started. If you store your token outside you can directly inject as a parameter of the InpiRNEClient Class.
