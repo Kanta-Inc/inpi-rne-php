@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class InpiRNEClientTest extends TestCase
 {
-    private $inpiRNEClient;
-
     protected function setUp(): void
     {
         // Initialisez InpiRNEClient avec des identifiants fictifs
