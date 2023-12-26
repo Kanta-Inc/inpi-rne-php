@@ -2,39 +2,38 @@
 PHP library to access the INPI RNE API
 
 ## Description
-`InpiRNEClient` est un package PHP pour interagir facilement avec l'API RNE de l'INPI. Il permet aux utilisateurs de s'authentifier, de rechercher des informations sur les entreprises françaises, et de manipuler d'autres données fournies par l'API.
+`InpiRNEClient` is a PHP library to easily interact with RNE INPI API. It allow users to authenticate, get data about french companies with their identification number (siren number).
+This version is based on the INPI Documentation located in data folder of this repository
 
 ## Installation
-Utilisez Composer pour installer ce package :
+Use [Composer](https://getcomposer.org/) to install this package :
 composer require votre/package
 
-## Utilisation
-Voici un exemple rapide pour commencer, si vous avez un token vous pouvez l'injecter directement.
-Sinon il faut également s'authentifier, le token reste en mémoire dans l'objet, afin d'optimiser l'utilisation du token il faut le stocker à l'exterieur pour limiter la regeneration de token et le trafic vers l'INPI.
+## Usage
+Here'is a fast example to get started. If you store your token outside you can directly inject as a parameter of the InpiRNEClient Class.
+If you don't provide it you have to use the authenticate method providing your username and password. This will store the token inside the InpiRNEClient Class.
+Then you can get your token back with the getToken method.
 
+```
 use InpiRNEClient;
 
 $client = new InpiRNEClient('token');
+$data = $client->searchCompany('889924320');
 
+// OR
 
-Authentification (génération d'un token), ceci est indispensable pour utiliser les autres actions si vous n'aviez pas injecté le token à la creation du Client.
+$client = new InpiRNEClient();
 $client->authenticate('votre_username', 'votre_password');
+$data = $client->searchCompany('889924320');
+```
 
-$companyData = $client->searchCompany('889924320');
-
-## Fonctionnalités
-- Authentification à l'API RNE de l'INPI.
-- Recherche d'informations sur les entreprises par SIREN.
+## Features
+- Authentication
+- Get company data from their siren number
 
 ## Tests
-Pour exécuter les tests :
+To execute tests of the package :
 vendor/bin/phpunit
-
-## Contribution
-Les contributions sont les bienvenues. Veuillez soumettre vos pull requests à la branche `main`.
-
-## Licence
-Ce projet est sous licence MIT.
 
 ## Authors
 Kanta Inc
