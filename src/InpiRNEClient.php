@@ -52,7 +52,7 @@ class InpiRNEClient implements InpiRNEClientInterface
         } catch (GuzzleException $e) {
             // catch errors from the response
             // TODO: normalize the error message
-            return $e->getMessage();
+            throw $e;
         }
     }
 
@@ -86,6 +86,7 @@ class InpiRNEClient implements InpiRNEClientInterface
         } catch (GuzzleException $e) {
             // catch errors from the response
             // TODO: normalize the error message
+            throw $e;
         }
     }
 }
