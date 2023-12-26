@@ -1,5 +1,5 @@
 {
-    "name": "PiLep/inpi-rne-php",
+    "name": "kanta-inc/inpi-rne-php",
     "description": "PHP library to access the INPI RNE API",
     "keywords": ["inpi", "rne", "api", "php"],
     "license": "MIT",
