@@ -16,6 +16,7 @@ class InpiRNEClient implements InpiRNEClientInterface
     private ?string $token;
 
     private const DEFAULT_PAGE_SIZE = 20;
+    private const BASE_URI = 'https://registre-national-entreprises.inpi.fr/';
 
     /**
      * InpiRNEClient constructor.
@@ -26,7 +27,7 @@ class InpiRNEClient implements InpiRNEClientInterface
      */
     public function __construct(?string $token = null)
     {
-        $this->client = new Client(['base_uri' => 'https://registre-national-entreprises.inpi.fr/']);
+        $this->client = new Client(['base_uri' => self::BASE_URI]);
         $this->token = $token;
     }
 
@@ -337,24 +338,10 @@ class InpiRNEClient implements InpiRNEClientInterface
 
         if ($dataCount === $pageSize) {
             $decoratedData['hasMoreResults'] = true;
-
-            $query = parse_url($url, PHP_URL_QUERY);
-            parse_str($query, $queryParams);
-            // extract the page number from the url
-            $pageNumber = $queryParams['page'] ?? null;
-
-            if ($pageNumber) {
-                $nextQueryParams['page'] = $pageNumber + 1;
-            } else {
-                $nextQueryParams['page'] = 2;
-            }
-
-
-            $decoratedData['nextPageUrl'] = $url . '?' . http_build_query($nextQueryParams);
         } else if ($dataCount < $pageSize) {
             $decoratedData['hasMoreResults'] = false;
         } else {
-            throw new \Exception('WTF - The number of results is greater than the page size.');
+            throw new \Exception('The number of results is greater than the page size.');
         }
 
         return $decoratedData;
