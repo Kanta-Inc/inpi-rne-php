@@ -74,6 +74,13 @@ class InpiRNEClientTest extends TestCase
             "siren" => "889924320"
         ];
 
+        // should have a token
+        $mock->shouldReceive('getToken')
+            ->once()
+            ->andReturn('fake_token');
+
+        $token = $mock->getToken();
+
         $mock->shouldReceive('searchCompanyBySiren')
             ->once()
             ->with('889924320') // SIREN fictif
@@ -145,6 +152,13 @@ class InpiRNEClientTest extends TestCase
             "resultsCount" => 2,
             "hasMoreResults" => false
         ];
+
+        // should have a token
+        $mock->shouldReceive('getToken')
+            ->once()
+            ->andReturn('fake_token');
+
+        $token = $mock->getToken();
 
         $mock->shouldReceive('searchCompanyByZipCode')
             ->once()

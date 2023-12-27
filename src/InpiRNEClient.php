@@ -80,11 +80,7 @@ class InpiRNEClient implements InpiRNEClientInterface
     public function searchCompanyBySiren(string $siren): array
     {
         try {
-            $response = $this->client->get("api/companies/{$siren}", [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->token
-                ]
-            ]);
+            $response = $this->client->get("api/companies/{$siren}", ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (GuzzleException $e) {
             // catch errors from the response
@@ -111,7 +107,7 @@ class InpiRNEClient implements InpiRNEClientInterface
                 $url .= "siren[]={$siren}&";
             }
 
-            $response = $this->client->get($url);
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (\Throwable $e) {
             // catch errors from the response
@@ -138,7 +134,7 @@ class InpiRNEClient implements InpiRNEClientInterface
                 throw new \Exception('The name is required.');
             }
 
-            $response = $this->client->get("api/companies?companyName={$name}");
+            $response = $this->client->get("api/companies?companyName={$name}", ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (\Throwable $e) {
             // catch errors from the response
@@ -177,7 +173,7 @@ class InpiRNEClient implements InpiRNEClientInterface
             if ($submissionDateTo) {
                 $url .= "submitDateTo={$submissionDateTo}&";
             }
-            $response = $this->client->get($url);
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (\Throwable $e) {
             // catch errors from the response
@@ -198,7 +194,7 @@ class InpiRNEClient implements InpiRNEClientInterface
     public function searchCompanyByNationalDepositNumber(string $nationalDepositNumber): array
     {
         try {
-            $response = $this->client->get("api/companies?numnat={$nationalDepositNumber}");
+            $response = $this->client->get("api/companies?numnat={$nationalDepositNumber}", ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (\Throwable $e) {
             // catch errors from the response
@@ -245,7 +241,7 @@ class InpiRNEClient implements InpiRNEClientInterface
                 throw new \Exception('Invalid input activity sector, please use one of the following values: ' . implode(', ', $validActivitySectors) . '.');
             }
 
-            $response = $this->client->get("api/companies?activitySectors={$activitySector}");
+            $response = $this->client->get("api/companies?activitySectors={$activitySector}", ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (\Throwable $e) {
             // catch errors from the response
@@ -270,7 +266,7 @@ class InpiRNEClient implements InpiRNEClientInterface
                 throw new \Exception('Invalid input category code, please use a 8 length number.');
             }
 
-            $response = $this->client->get("api/companies?codeCategory={$categoryCode}");
+            $response = $this->client->get("api/companies?codeCategory={$categoryCode}", ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (\Throwable $e) {
             // catch errors from the response
@@ -299,7 +295,7 @@ class InpiRNEClient implements InpiRNEClientInterface
             $url = "api/companies?";
             $url .= "zipCodes[]={$zipCode}&";
 
-            $response = $this->client->get($url);
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
 
             $data = json_decode($response->getBody(), true);
 
@@ -362,5 +358,15 @@ class InpiRNEClient implements InpiRNEClientInterface
         }
 
         return $decoratedData;
+    }
+
+    private function getAuthorizationHeaderArray(): array
+    {
+        if ($this->token) {
+            $headers['Authorization'] = 'Bearer ' . $this->token;
+        } else {
+            throw new \Exception('You need to authenticate first.');
+        }
+        return $headers;
     }
 }
