@@ -18,13 +18,13 @@ Then you can get your token back with the getToken method.
 use InpiRNEClient;
 
 $client = new InpiRNEClient('token');
-$data = $client->searchCompany('889924320');
+$data = $client->searchCompanyBySiren('889924320');
 
 // OR
 
 $client = new InpiRNEClient();
 $client->authenticate('votre_username', 'votre_password');
-$data = $client->searchCompany('889924320');
+$data = $client->searchCompanyBySiren('889924320');
 ```
 
 ## Features
