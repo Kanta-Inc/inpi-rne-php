@@ -15,7 +15,19 @@ class InpiRNEClientTest extends TestCase
     protected function setUp(): void
     {
         // Initialisez InpiRNEClient avec des identifiants fictifs
-        $this->inpiRNEClient = new InpiRNEClient('username', 'password');
+        $this->inpiRNEClient = new InpiRNEClient();
+    }
+
+    public function testInit(): void
+    {
+        // test instanciation
+        $this->inpiRNEClient = new InpiRNEClient();
+        $this->assertInstanceOf(InpiRNEClient::class, $this->inpiRNEClient);
+        // check token if set at instanciation
+        $this->inpiRNEClient = new InpiRNEClient('my_token');
+        $this->assertInstanceOf(InpiRNEClient::class, $this->inpiRNEClient);
+        // check token
+        $this->assertEquals('my_token', $this->inpiRNEClient->getToken());
     }
 
     public function testAuthentication(): void

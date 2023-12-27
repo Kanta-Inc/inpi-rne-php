@@ -13,7 +13,7 @@ use GuzzleHttp\Exception\GuzzleException;
 class InpiRNEClient implements InpiRNEClientInterface
 {
     private Client $client;
-    private string $token;
+    private ?string $token;
 
     private const DEFAULT_PAGE_SIZE = 20;
 
