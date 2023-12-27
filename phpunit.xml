@@ -5,5 +5,35 @@
     <testsuite name="InpiRNEClientTest">
       <directory>./tests/</directory>
     </testsuite>
+    <testsuite name="SearchCompanyBySirenTest">
+      <file>./tests/InpiRNEClient/SearchCompanyBySirenTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompaniesByActivitySectorTest">
+      <file>./tests/InpiRNEClient/SearchCompaniesByActivitySectorTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompaniesByCategoryCodeTest">
+      <file>./tests/InpiRNEClient/SearchCompaniesByCategoryCodeTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompaniesByNameTest">
+      <file>./tests/InpiRNEClient/SearchCompaniesByNameTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompaniesBySirenTest">
+      <file>./tests/InpiRNEClient/SearchCompaniesBySirenTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompaniesBySubmissionDateTest">
+      <file>./tests/InpiRNEClient/SearchCompaniesBySubmissionDateTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompaniesByZipCodeTest">
+      <file>./tests/InpiRNEClient/SearchCompaniesByZipCodeTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompanyByNationalDepositNumberTest">
+      <file>./tests/InpiRNEClient/SearchCompanyByNationalDepositNumberTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompanyBySirenTest">
+      <file>./tests/InpiRNEClient/SearchCompanyBySirenTest.php</file>
+    </testsuite>
+    <testsuite name="SearchCompanyOldStateBySirenTest">
+      <file>./tests/InpiRNEClient/SearchCompanyOldStateBySirenTest.php</file>
+    </testsuite>
   </testsuites>
 </phpunit>

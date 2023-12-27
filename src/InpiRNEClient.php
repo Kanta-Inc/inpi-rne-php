@@ -34,16 +34,18 @@ class InpiRNEClient implements InpiRNEClientInterface
     /**
      * Authentify the user and store the token in the client
      * 
-     * @param $username
-     * @param $password
+     * @param string $username
+     * @param string $password
      * 
      * @throws GuzzleException
      * @return void
      */
-    public function authenticate($username, $password): void
+    public function authenticate(string $username, string $password): void
     {
         try {
+            // reset the token
             $this->token = null;
+            // call the API to get the token
             $response = $this->client->post('api/sso/login', [
                 'json' => [
                     'username' => $username,
@@ -53,6 +55,14 @@ class InpiRNEClient implements InpiRNEClientInterface
             $data = json_decode($response->getBody(), true);
             $this->token = $data['token'];
         } catch (GuzzleException $e) {
+            // if 401, the credentials are invalid
+            if ($e->getCode() === 401) {
+                throw new \Exception('Bad credentials');
+            } else if ($e->getCode() === 403) {
+                throw new \Exception('Forbidden');
+            } else if ($e->getCode() === 429) {
+                throw new \Exception('Too many requests');
+            }
             // catch errors from the response
             // TODO: normalize the error message
             throw $e;
@@ -81,6 +91,10 @@ class InpiRNEClient implements InpiRNEClientInterface
     public function searchCompanyBySiren(string $siren): array
     {
         try {
+            // error if the siren is not 9 length number
+            if (!preg_match('/^\d{9}$/', $siren)) {
+                throw new \Exception('Invalid input siren, please use a 9 length number.');
+            }
             $response = $this->client->get("api/companies/{$siren}", ['headers' => $this->getAuthorizationHeaderArray()]);
             return json_decode($response->getBody(), true);
         } catch (GuzzleException $e) {
@@ -91,25 +105,39 @@ class InpiRNEClient implements InpiRNEClientInterface
     }
 
     /**
-     * Search a company by multiple siren numbers
+     * Search companies by multiple siren numbers
      * Exact search only
      * 
+     * You can specify page size and page number
+     * iterate over the pages to get all the results
+     * 
      * @param array $sirens
+     * @param int $pageSize
+     * @param int $page
      * 
      * @throws GuzzleException
      * @return array
      */
-    public function searchCompaniesBySiren(array $sirens): array
+    public function searchCompaniesBySiren(array $sirens, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
         // example : https://registre-national-entreprises.inpi.fr/api/companies?siren[0]=889924320&siren[1]=894419969
         try {
             $url = "api/companies?";
+
+            $url = $this->addPageToUrl($url, $page);
+            $url = $this->addPageSizeToUrl($url, $pageSize);
+
             foreach ($sirens as $siren) {
                 $url .= "siren[]={$siren}&";
             }
 
             $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
-            return json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody(), true);
+
+            // decorate the response to add results count
+            $data = $this->decorateResponse($data);
+
+            return $data;
         } catch (\Throwable $e) {
             // catch errors from the response
             // TODO: normalize the error message
@@ -118,25 +146,40 @@ class InpiRNEClient implements InpiRNEClientInterface
     }
 
     /**
-     * Search a company by its name
+     * Search companies by their name
      * Contains type search (starts with, contains, ends with)
      * 
+     * You can specify page size and page number
+     * iterate over the pages to get all the results
+     * 
      * @param string $name
+     * @param int $pageSize
+     * @param int $page
      * 
      * @throws GuzzleException
      * @return array
      */
-    public function searchCompanyByName(string $name): array
+    public function searchCompaniesByName(string $name, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
-        // example : https://registre-national-entreprises.inpi.fr/api/companies?companyName=Grinto
         try {
             // error if the name is empty
             if (empty($name)) {
                 throw new \Exception('The name is required.');
             }
 
-            $response = $this->client->get("api/companies?companyName={$name}", ['headers' => $this->getAuthorizationHeaderArray()]);
-            return json_decode($response->getBody(), true);
+            $url = "api/companies?";
+            $url .= "companyName={$name}&";
+
+            $url = $this->addPageToUrl($url, $page);
+            $url = $this->addPageSizeToUrl($url, $pageSize);
+
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
+            $data = json_decode($response->getBody(), true);
+
+            // decorate the response to add results count
+            $data = $this->decorateResponse($data);
+
+            return $data;
         } catch (\Throwable $e) {
             // catch errors from the response
             // TODO: normalize the error message
@@ -146,17 +189,21 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Search a company by its submission dates
-     * submissionDateFrom (included) and submissionDateTo (not included), at least one is required
+     * submissionDateFrom (included) and submissionDateTo (not included), at least from is required
+     * 
+     * You can specify page size and page number
+     * iterate over the pages to get all the results
      * 
      * @param string $submissionDateFrom (YYYY-MM-DD format) - included
-     * @param string $submissionDateTo (YYYY-MM-DD format) - not included
+     * @param ?string $submissionDateTo (YYYY-MM-DD format) - not included
+     * @param int $pageSize
+     * @param int $page
      * 
      * @throws GuzzleException
      * @return array
      */
-    public function searchCompanyBySubmissionDate(string $submissionDateFrom, string $submissionDateTo): array
+    public function searchCompaniesBySubmissionDate(string $submissionDateFrom, ?string $submissionDateTo, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
-        // example : https://registre-national-entreprises.inpi.fr/api/companies?submissionDateFrom=2021-01-01&submissionDateTo=2021-12-31
         try {
             // error if not at least one date is provided
             if (!$submissionDateFrom && !$submissionDateTo) {
@@ -168,14 +215,24 @@ class InpiRNEClient implements InpiRNEClientInterface
             }
 
             $url = "api/companies?";
+
+            $url = $this->addPageToUrl($url, $page);
+            $url = $this->addPageSizeToUrl($url, $pageSize);
+
             if ($submissionDateFrom) {
                 $url .= "submitDateFrom={$submissionDateFrom}&";
             }
             if ($submissionDateTo) {
                 $url .= "submitDateTo={$submissionDateTo}&";
             }
+
             $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
-            return json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody(), true);
+
+            // decorate the response to add results count
+            $data = $this->decorateResponse($data);
+
+            return $data;
         } catch (\Throwable $e) {
             // catch errors from the response
             // TODO: normalize the error message
@@ -185,7 +242,7 @@ class InpiRNEClient implements InpiRNEClientInterface
 
 
     /**
-     * Search a company by its national deposit number
+     * Search a single company by its national deposit number
      * 
      * @param string $nationalDepositNumber
      * 
@@ -205,7 +262,8 @@ class InpiRNEClient implements InpiRNEClientInterface
     }
 
     /**
-     * Search a company by its activity sector
+     * Search companies by its activity sector
+     * 
      * AGENT_COMMERCIAL
      * AGRICOLE_NON_ACTIF
      * ACTIF_AGRICOLE
@@ -217,12 +275,17 @@ class InpiRNEClient implements InpiRNEClientInterface
      * GESTION_DE_BIENS
      * SANS_ACTIVITE
      * 
+     * You can specify page size and page number
+     * iterate over the pages to get all the results
+     * 
      * @param string $activitySector
+     * @param int $pageSize
+     * @param int $page
      * 
      * @throws GuzzleException
      * @return array
      */
-    public function searchCompanyByActivitySector(string $activitySector): array
+    public function searchCompaniesByActivitySector(string $activitySector, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
         try {
             // return error if the activity sector is not valid
@@ -242,8 +305,19 @@ class InpiRNEClient implements InpiRNEClientInterface
                 throw new \Exception('Invalid input activity sector, please use one of the following values: ' . implode(', ', $validActivitySectors) . '.');
             }
 
-            $response = $this->client->get("api/companies?activitySectors={$activitySector}", ['headers' => $this->getAuthorizationHeaderArray()]);
-            return json_decode($response->getBody(), true);
+            $url = "api/companies?";
+            $url .= "activitySectors[]={$activitySector}&";
+
+            $url = $this->addPageToUrl($url, $page);
+            $url = $this->addPageSizeToUrl($url, $pageSize);
+
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
+            $data = json_decode($response->getBody(), true);
+
+            // decorate the response to add results count
+            $data = $this->decorateResponse($data);
+
+            return $data;
         } catch (\Throwable $e) {
             // catch errors from the response
             // TODO: normalize the error message
@@ -252,14 +326,19 @@ class InpiRNEClient implements InpiRNEClientInterface
     }
 
     /**
-     * Search a company by its category code
+     * Search companies by its category code
+     * 
+     * You can specify page size and page number
+     * iterate over the pages to get all the results
      * 
      * @param string $categoryCode
+     * @param int $pageSize
+     * @param int $page
      * 
      * @throws GuzzleException
      * @return array
      */
-    public function searchCompanyByCategoryCode(string $categoryCode): array
+    public function searchCompaniesByCategoryCode(string $categoryCode, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
         try {
             // error if the category code is not 8 length number
@@ -267,8 +346,19 @@ class InpiRNEClient implements InpiRNEClientInterface
                 throw new \Exception('Invalid input category code, please use a 8 length number.');
             }
 
-            $response = $this->client->get("api/companies?codeCategory={$categoryCode}", ['headers' => $this->getAuthorizationHeaderArray()]);
-            return json_decode($response->getBody(), true);
+            $url = "api/companies?";
+            $url .= "codeCategory={$categoryCode}&";
+
+            $url = $this->addPageToUrl($url, $page);
+            $url = $this->addPageSizeToUrl($url, $pageSize);
+
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
+            $data = json_decode($response->getBody(), true);
+
+            // decorate the response to add results count
+            $data = $this->decorateResponse($data);
+
+            return $data;
         } catch (\Throwable $e) {
             // catch errors from the response
             // TODO: normalize the error message
@@ -277,15 +367,21 @@ class InpiRNEClient implements InpiRNEClientInterface
     }
 
     /**
-     * Search a company by its zip codes
-     * WARNING - Seems to be a array of only on zip code (issue with the INPI API)
+     * Search companies by its zip codes
+     * INPI DOCUMENTATION AMBIGUITY WARNING - Seems to be a array of only one zip code (issue with the INPI API)
+     * If multiple zip codes are provided to the API, results are not correct
+     * 
+     * You can specify page size and page number
+     * iterate over the pages to get all the results
      * 
      * @param array $zipCodes
+     * @param int $pageSize
+     * @param int $page
      * 
      * @throws GuzzleException
      * @return array
      */
-    public function searchCompanyByZipCode(string $zipCode): array
+    public function searchCompaniesByZipCode(string $zipCode, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
         try {
             // error if the zip codes are not valid
@@ -294,20 +390,53 @@ class InpiRNEClient implements InpiRNEClientInterface
             }
 
             $url = "api/companies?";
+
+            $url = $this->addPageToUrl($url, $page);
+            $url = $this->addPageSizeToUrl($url, $pageSize);
+
             $url .= "zipCodes[]={$zipCode}&";
 
             $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
-
             $data = json_decode($response->getBody(), true);
 
             // decorate the response to add results count
             // if page size is reached, we need to indicate there are more results
             // add url of the next request to get the next page
 
-            $data = $this->decorateResponse($data, $url);
+            $data = $this->decorateResponse($data);
 
             return $data;
         } catch (\Throwable $e) {
+            // catch errors from the response
+            // TODO: normalize the error message 
+            throw $e;
+        }
+    }
+
+    /**
+     * Search a single company old state by its siren and date
+     * 
+     * @param string $siren
+     * @param string $date (YYYY-MM-DD format)
+     * 
+     * @throws GuzzleException
+     * @return array
+     */
+    public function searchCompanyOldStateBySiren(string $siren, string $date): array
+    {
+        try {
+            $url = "api/companies/{$siren}";
+
+            // error if the date is not valid
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+                throw new \Exception('Invalid input date, please use YYYY-MM-DD format.');
+            }
+
+            $url .= "?date={$date}";
+
+            $response = $this->client->get($url, ['headers' => $this->getAuthorizationHeaderArray()]);
+            return json_decode($response->getBody(), true);
+        } catch (GuzzleException $e) {
             // catch errors from the response
             // TODO: normalize the error message 
             throw $e;
@@ -325,7 +454,7 @@ class InpiRNEClient implements InpiRNEClientInterface
      * @throws GuzzleException
      * @return array
      */
-    private function decorateResponse(array $data, string $url, int $pageSize = self::DEFAULT_PAGE_SIZE): array
+    private function decorateResponse(array $data, int $pageSize = self::DEFAULT_PAGE_SIZE): array
     {
         // decorate the response to add results count
         // if page size is reached, we need to indicate there are more results
@@ -347,6 +476,12 @@ class InpiRNEClient implements InpiRNEClientInterface
         return $decoratedData;
     }
 
+    /**
+     * Get the authorization header array
+     * 
+     * @throws \Exception
+     * @return array
+     */
     private function getAuthorizationHeaderArray(): array
     {
         if ($this->token) {
@@ -355,5 +490,43 @@ class InpiRNEClient implements InpiRNEClientInterface
             throw new \Exception('You need to authenticate first.');
         }
         return $headers;
+    }
+
+    /**
+     * Add the page parameter to the url
+     * 
+     * @param string $url
+     * @param int $page
+     * 
+     * @throws \Exception
+     * @return string
+     */
+    private function addPageToUrl(string $url, int $page): string
+    {
+        if ($page < 1) {
+            throw new \Exception('Invalid input page, please use a number greater than 0.');
+        }
+        // check if the url already contains a page parameter
+        if (strpos($url, 'page=') !== false) {
+            throw new \Exception('The url already contains a page parameter.');
+        }
+        return $url . "page={$page}&";
+    }
+
+    /**
+     * Add the page size parameter to the url
+     * 
+     * @param string $url
+     * @param int $pageSize
+     * 
+     * @throws \Exception
+     * @return string
+     */
+    private function addPageSizeToUrl(string $url, int $pageSize): string
+    {
+        if ($pageSize < 1 || $pageSize > 100) {
+            throw new \Exception('Invalid input page size, please use a number between 1 and 100.');
+        }
+        return $url . "pageSize={$pageSize}&";
     }
 }
