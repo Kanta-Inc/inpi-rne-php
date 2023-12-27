@@ -306,7 +306,7 @@ class InpiRNEClient implements InpiRNEClientInterface
             }
 
             $url = "api/companies?";
-            $url .= "activitySectors[]={$activitySector}&";
+            $url .= "activitySectors={$activitySector}&";
 
             $url = $this->addPageToUrl($url, $page);
             $url = $this->addPageSizeToUrl($url, $pageSize);
@@ -458,20 +458,11 @@ class InpiRNEClient implements InpiRNEClientInterface
     {
         // decorate the response to add results count
         // if page size is reached, we need to indicate there are more results
-        // add url of the next request to get the next page
         $dataCount = count($data);
-        $decoratedData = [
-            'resultsCount' => $dataCount,
-            'results' => $data
-        ];
-
-        if ($dataCount === $pageSize) {
-            $decoratedData['hasMoreResults'] = true;
-        } else if ($dataCount < $pageSize) {
-            $decoratedData['hasMoreResults'] = false;
-        } else {
-            throw new \Exception('The number of results is greater than the page size.');
-        }
+        $decoratedData['resultsCount'] = $dataCount;
+        $decoratedData['hasMoreResults'] = false;
+        if ($dataCount === $pageSize) $decoratedData['hasMoreResults'] = true;
+        $decoratedData['results'] = $data;
 
         return $decoratedData;
     }
