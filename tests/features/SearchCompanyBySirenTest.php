@@ -3,9 +3,13 @@
 namespace InpiRNEClient;
 
 use Mockery;
-use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class SearchCompanyBySirenTest extends TestCase
+class SearchCompanyBySirenTest extends MockeryTestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -16,51 +20,35 @@ class SearchCompanyBySirenTest extends TestCase
 
     public function testSearchCompanyBySiren(): void
     {
-        // Création du mock de l'interface
-        $mock = Mockery::mock(InpiRNEClientInterface::class);
-        $mockedResponse = [
-            "updatedAt" => "2023-10-31T03:52:43+01:00",
-            "id" => "63ade9a1e0e85a58e30d53cd",
-            "formality" => [
-                "siren" => "889924320",
-                "content" => [
-                    "personneMorale" => [
-                        "beneficiairesEffectifs" => [
-                            [
-                                "beneficiaireId" => "5",
-                                "beneficiaire" => [
-                                    "descriptionPersonne" => [
-                                        "nom" => "LEPETIT",
-                                        "nationalite" => "Française"
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            "siren" => "889924320"
-        ];
+        // get from file
+        $fakeResponse = file_get_contents(__DIR__ . '/../fixtures/searchCompanyBySiren.json');
 
-        // should have a token
-        $mock->shouldReceive('getToken')
-            ->once()
-            ->andReturn('fake_token');
+        $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
+        $handlerStack = HandlerStack::create($mockHandler);
+        $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $token = $mock->getToken();
-
-        $mock->shouldReceive('searchCompanyBySiren')
-            ->once()
-            ->with('889924320') // SIREN fictif
-            ->andReturn($mockedResponse);
+        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $mock->searchCompanyBySiren('889924320');
+        $result = $this->inpiRNEClient->searchCompanyBySiren('889924320');
         $this->assertIsArray($result);
         $this->assertEquals('889924320', $result['siren']);
         $this->assertEquals('63ade9a1e0e85a58e30d53cd', $result['id']);
         $this->assertEquals('LEPETIT', $result['formality']['content']['personneMorale']['beneficiairesEffectifs'][0]['beneficiaire']['descriptionPersonne']['nom']);
         $this->assertEquals('Française', $result['formality']['content']['personneMorale']['beneficiairesEffectifs'][0]['beneficiaire']['descriptionPersonne']['nationalite']);
+    }
+
+    public function testSearchCompanyBySirenWithApiError(): void
+    {
+        $mockHandler = new MockHandler([new Response(500, [], '[]')]);
+        $handlerStack = HandlerStack::create($mockHandler);
+        $mockedClient = new Client(['handler' => $handlerStack]);
+
+        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Unknown error");
+        $this->inpiRNEClient->searchCompanyBySiren('889924320');
     }
 
     public function testSearchCompanyBySirenWithBadSiren(): void
