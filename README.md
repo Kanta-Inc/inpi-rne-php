@@ -20,19 +20,19 @@ Use [Composer](https://getcomposer.org/) to install this package :
 composer require kanta-inc/inpi-rne-php
 
 ## Usage
-Here'is a fast example to get started. If you store your token outside you can directly inject as a parameter of the InpiRNEClient Class.
-If you don't provide it you have to use the authenticate method providing your username and password. This will store the token inside the InpiRNEClient Class.
+Here'is a fast example to get started. If you store your token outside you can directly inject as a parameter of the RNEClient Class.
+If you don't provide it you have to use the authenticate method providing your username and password. This will store the token inside the RNEClient Class.
 Then you can get your token back with the getToken method.
 
 ```
-use InpiRNEClient\InpiRNEClient;
+use RNEClient\RNEClient;
 
-$client = new InpiRNEClient('token');
+$client = new RNEClient('token');
 $data = $client->searchCompanyBySiren('889924320');
 
 // OR
 
-$client = new InpiRNEClient();
+$client = new RNEClient();
 $client->authenticate('votre_username', 'votre_password');
 $data = $client->searchCompanyBySiren('889924320');
 ```

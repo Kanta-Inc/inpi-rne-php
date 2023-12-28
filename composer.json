@@ -14,12 +14,12 @@
     },
     "autoload": {
         "psr-4" : {
-            "InpiRNEClient\\" : "src/"
+            "RNEClient\\" : "src/"
         }
     },
     "autoload-dev": {
         "psr-4" : {
-            "InpiRNEClient\\Tests\\" : "tests/"
+            "RNEClient\\Tests\\" : "tests/"
         }
     }
 }

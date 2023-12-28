@@ -1,16 +1,16 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
- * Class InpiRNEClient
+ * Class RNEClient
  *
- * @package InpiRNEClient
+ * @package RNEClient
  */
-class InpiRNEClient implements InpiRNEClientInterface
+class RNEClient implements RNEClientInterface
 {
     private Client $client;
     private ?string $token;
@@ -32,7 +32,7 @@ class InpiRNEClient implements InpiRNEClientInterface
     ];
 
     /**
-     * InpiRNEClient constructor.
+     * RNEClient constructor.
      * If a token is provided, it will be used for the requests
      * Otherwise, the user will have to authenticate first
      *

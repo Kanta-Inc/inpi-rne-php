@@ -1,6 +1,6 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 
 use GuzzleHttp\Client;
@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesBySirenTest extends TestCase
 {
-    private InpiRNEClientInterface $inpiRNEClient;
+    private RNEClientInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->inpiRNEClient = new InpiRNEClient('fake_token');
+        $this->RNEClient = new RNEClient('fake_token');
     }
 
     public function testSearchCompaniesBySiren(): void
@@ -27,10 +27,10 @@ class SearchCompaniesBySirenTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->inpiRNEClient->searchCompaniesBySiren(['889924320', '894419969']);
+        $result = $this->RNEClient->searchCompaniesBySiren(['889924320', '894419969']);
         $this->assertIsArray($result);
 
         // count($result) = 2
@@ -58,13 +58,13 @@ class SearchCompaniesBySirenTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
 
-        $this->inpiRNEClient->searchCompaniesBySiren(['x', '8899243dd20']);
+        $this->RNEClient->searchCompaniesBySiren(['x', '8899243dd20']);
     }
 
     public function testSearchCompaniesBySirenWithBadPageSize(): void
@@ -73,13 +73,13 @@ class SearchCompaniesBySirenTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input page size, please use a number between 1 and 100.");
 
-        $this->inpiRNEClient->searchCompaniesBySiren(['889924320', '894419969'], 0);
+        $this->RNEClient->searchCompaniesBySiren(['889924320', '894419969'], 0);
     }
 
     public function testSearchCompaniesBySirenWithBadPageNumber(): void
@@ -88,12 +88,12 @@ class SearchCompaniesBySirenTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input page, please use a number greater than 0.");
 
-        $this->inpiRNEClient->searchCompaniesBySiren(['889924320', '894419969'], 10, 0);
+        $this->RNEClient->searchCompaniesBySiren(['889924320', '894419969'], 10, 0);
     }
 }

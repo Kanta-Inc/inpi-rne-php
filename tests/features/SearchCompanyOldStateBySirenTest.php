@@ -1,6 +1,6 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 
 use GuzzleHttp\Client;
@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompanyOldStateBySirenTest extends TestCase
 {
-    private InpiRNEClientInterface $inpiRNEClient;
+    private RNEClientInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->inpiRNEClient = new InpiRNEClient();
+        $this->RNEClient = new RNEClient();
     }
 
     public function testSearchCompanyOldStateBySiren(): void
@@ -27,10 +27,10 @@ class SearchCompanyOldStateBySirenTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->inpiRNEClient->searchCompanyOldStateBySiren('889924320', '2021-01-01');
+        $result = $this->RNEClient->searchCompanyOldStateBySiren('889924320', '2021-01-01');
         $this->assertIsArray($result);
         $this->assertEquals('889924320', $result['siren']);
         $this->assertEquals('63ade9a1e0e85a58e30d53cd', $result['id']);
@@ -40,7 +40,7 @@ class SearchCompanyOldStateBySirenTest extends TestCase
 
     public function testSearchCompanyOldStateBySirenWithBadSiren(): void
     {
-        $client = new InpiRNEClient();
+        $client = new RNEClient();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
         $client->searchCompanyBySiren('bad_siren');
@@ -48,7 +48,7 @@ class SearchCompanyOldStateBySirenTest extends TestCase
 
     public function testSearchCompanyOldStateBySirenWithShortSiren(): void
     {
-        $client = new InpiRNEClient();
+        $client = new RNEClient();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
         $client->searchCompanyBySiren('12345678');
@@ -56,7 +56,7 @@ class SearchCompanyOldStateBySirenTest extends TestCase
 
     public function testSearchCompanyOldStateBySirenWithLongSiren(): void
     {
-        $client = new InpiRNEClient();
+        $client = new RNEClient();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
         $client->searchCompanyBySiren('1234567890');
@@ -64,7 +64,7 @@ class SearchCompanyOldStateBySirenTest extends TestCase
 
     public function testSearchCompanyOldStateBySirenWithBadDate(): void
     {
-        $client = new InpiRNEClient();
+        $client = new RNEClient();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input date, please use YYYY-MM-DD format.");
         $client->searchCompanyOldStateBySiren('889924320', 'bad_date');

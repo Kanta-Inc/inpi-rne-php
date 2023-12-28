@@ -1,6 +1,6 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 
 use GuzzleHttp\Client;
@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesByNameTest extends TestCase
 {
-    private InpiRNEClientInterface $inpiRNEClient;
+    private RNEClientInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->inpiRNEClient = new InpiRNEClient();
+        $this->RNEClient = new RNEClient();
     }
 
     public function testSearchCompaniesByName(): void
@@ -27,10 +27,10 @@ class SearchCompaniesByNameTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->inpiRNEClient->searchCompaniesByName('Kanta');
+        $result = $this->RNEClient->searchCompaniesByName('Kanta');
         $this->assertIsArray($result);
 
         $this->assertCount(20, $result['results']);

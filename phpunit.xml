@@ -7,7 +7,7 @@
         displayDetailsOnTestsThatTriggerWarnings="true"
 >
   <testsuites>
-    <testsuite name="InpiRNEClientTest">
+    <testsuite name="RNEClientTest">
       <directory>./tests/</directory>
     </testsuite>
     <testsuite name="SearchCompanyBySirenTest">

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use InpiRNEClient\InpiRNEClient;
+use RNEClient\RNEClient;
 
-$client = new InpiRNEClient("token");
+$client = new RNEClient("token");
 
 echo $client->getToken();

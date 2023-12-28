@@ -1,6 +1,6 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 
 use GuzzleHttp\Client;
@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesByCategoryCodeTest extends TestCase
 {
-    private InpiRNEClientInterface $inpiRNEClient;
+    private RNEClientInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->inpiRNEClient = new InpiRNEClient();
+        $this->RNEClient = new RNEClient();
     }
 
     public function testSearchCompaniesByCategoryCode(): void
@@ -27,10 +27,10 @@ class SearchCompaniesByCategoryCodeTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->inpiRNEClient->searchCompaniesByCategoryCode('01010101');
+        $result = $this->RNEClient->searchCompaniesByCategoryCode('01010101');
         $this->assertIsArray($result);
 
         $this->assertCount(20, $result['results']);
@@ -48,11 +48,11 @@ class SearchCompaniesByCategoryCodeTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid input category code, please use a 8 length number.');
 
-        $this->inpiRNEClient->searchCompaniesByCategoryCode('145d');
+        $this->RNEClient->searchCompaniesByCategoryCode('145d');
     }
 }

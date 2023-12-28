@@ -1,6 +1,6 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 
 use GuzzleHttp\Client;
@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesBySubmissionDateTest extends TestCase
 {
-    private InpiRNEClientInterface $inpiRNEClient;
+    private RNEClientInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->inpiRNEClient = new InpiRNEClient();
+        $this->RNEClient = new RNEClient();
     }
 
     public function testSearchCompaniesBySubmissionDate(): void
@@ -27,10 +27,10 @@ class SearchCompaniesBySubmissionDateTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->inpiRNEClient->searchCompaniesBySubmissionDate('2022-04-01', '2022-04-02');
+        $result = $this->RNEClient->searchCompaniesBySubmissionDate('2022-04-01', '2022-04-02');
         $this->assertIsArray($result);
 
         $this->assertCount(20, $result['results']);
@@ -45,11 +45,11 @@ class SearchCompaniesBySubmissionDateTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid input date format, please use YYYY-MM-DD format.');
 
-        $this->inpiRNEClient->searchCompaniesBySubmissionDate('20204-01', '2022-042');
+        $this->RNEClient->searchCompaniesBySubmissionDate('20204-01', '2022-042');
     }
 }

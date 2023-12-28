@@ -1,6 +1,6 @@
 <?php
 
-namespace InpiRNEClient;
+namespace RNEClient;
 
 
 use GuzzleHttp\Client;
@@ -11,11 +11,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesByActivitySectorTest extends TestCase
 {
-    private InpiRNEClientInterface $inpiRNEClient;
+    private RNEClientInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->inpiRNEClient = new InpiRNEClient();
+        $this->RNEClient = new RNEClient();
     }
 
     public function testSearchCompaniesByActivitySector(): void
@@ -27,10 +27,10 @@ class SearchCompaniesByActivitySectorTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->inpiRNEClient->searchCompaniesByActivitySector('AGENT_COMMERCIAL');
+        $result = $this->RNEClient->searchCompaniesByActivitySector('AGENT_COMMERCIAL');
         $this->assertIsArray($result);
 
         // count($result) = 2
@@ -53,12 +53,12 @@ class SearchCompaniesByActivitySectorTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid input activity sector, please use one of the following values: ' . implode(', ', InpiRNEClient::VALID_ACTIVITY_SECTORS) . '.');
+        $this->expectExceptionMessage('Invalid input activity sector, please use one of the following values: ' . implode(', ', RNEClient::VALID_ACTIVITY_SECTORS) . '.');
 
         // Testez le comportement de recherche
-        $this->inpiRNEClient->searchCompaniesByActivitySector('BAD_ACTIVITY_SECTOR');
+        $this->RNEClient->searchCompaniesByActivitySector('BAD_ACTIVITY_SECTOR');
     }
 }
