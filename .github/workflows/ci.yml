@@ -1,13 +1,19 @@
 name: CI
 
 on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch: {}
   push:
-    branches: [ main ]
+    branches: 
+      - main
   pull_request:
-    branches: [ main ]
+    branches: 
+      - main
 
 jobs:
   tests:
+    name: Tests
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +36,8 @@ jobs:
         bootstrap: vendor/autoload.php
         configuration: phpunit.xml
         php_extensions: xdebug
-        args: tests --coverage-clover ./coverage.xml  
+        args: tests --coverage-clover ./coverage.xml
+        
     - name: Upload to Codecov
       uses: codecov/codecov-action@v3
       with:
