@@ -1,4 +1,10 @@
 # InpiRNEClient
+[![Build Status](https://github.com/kanta-inc/inpi-rne-php/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kanta-inc/inpi-rne-php/actions?query=branch%3Amain)
+[![Latest Stable Version](http://poser.pugx.org/kanta-inc/inpi-rne-php/v)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
+[![Total Downloads](http://poser.pugx.org/kanta-inc/inpi-rne-php/downloads)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
+[![License](http://poser.pugx.org/kanta-inc/inpi-rne-php/license)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
+[![PHP Version Require](http://poser.pugx.org/kanta-inc/inpi-rne-php/require/php)](https://packagist.org/packages/kanta-inc/inpi-rne-php)
+
 PHP library to access the INPI RNE API
 
 ## Description
