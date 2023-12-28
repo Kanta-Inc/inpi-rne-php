@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompanyByNationalDepositNumberTest extends MockeryTestCase
+class SearchCompanyByNationalDepositNumberTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -60,10 +60,5 @@ class SearchCompanyByNationalDepositNumberTest extends MockeryTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
         $client->searchCompanyBySiren('1234567890');
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

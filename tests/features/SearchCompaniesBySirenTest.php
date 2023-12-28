@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompaniesBySirenTest extends MockeryTestCase
+class SearchCompaniesBySirenTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -95,10 +95,5 @@ class SearchCompaniesBySirenTest extends MockeryTestCase
         $this->expectExceptionMessage("Invalid input page, please use a number greater than 0.");
 
         $this->inpiRNEClient->searchCompaniesBySiren(['889924320', '894419969'], 10, 0);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

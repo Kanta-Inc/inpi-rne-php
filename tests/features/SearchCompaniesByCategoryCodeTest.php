@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompaniesByCategoryCodeTest extends MockeryTestCase
+class SearchCompaniesByCategoryCodeTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -54,10 +54,5 @@ class SearchCompaniesByCategoryCodeTest extends MockeryTestCase
         $this->expectExceptionMessage('Invalid input category code, please use a 8 length number.');
 
         $this->inpiRNEClient->searchCompaniesByCategoryCode('145d');
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

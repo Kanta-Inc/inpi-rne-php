@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompaniesBySubmissionDateTest extends MockeryTestCase
+class SearchCompaniesBySubmissionDateTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -51,10 +51,5 @@ class SearchCompaniesBySubmissionDateTest extends MockeryTestCase
         $this->expectExceptionMessage('Invalid input date format, please use YYYY-MM-DD format.');
 
         $this->inpiRNEClient->searchCompaniesBySubmissionDate('20204-01', '2022-042');
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

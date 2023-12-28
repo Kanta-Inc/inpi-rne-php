@@ -98,6 +98,43 @@ class InpiRNEClient implements InpiRNEClientInterface
     }
 
     /**
+     * Search a single company by its national deposit number
+     * 
+     * @param string $nationalDepositNumber
+     * 
+     * @throws GuzzleException
+     * @return array
+     */
+    public function searchCompanyByNationalDepositNumber(string $nationalDepositNumber): array
+    {
+        return $this->requestApi('get', "api/companies?numnat={$nationalDepositNumber}", ['headers' => $this->getAuthorizationHeaderArray()]);
+    }
+
+    /**
+     * Search a single company old state by its siren and date
+     * 
+     * @param string $siren
+     * @param string $date (YYYY-MM-DD format)
+     * 
+     * @throws GuzzleException
+     * @return array
+     */
+    public function searchCompanyOldStateBySiren(string $siren, string $date): array
+    {
+        $url = "api/companies/{$siren}";
+
+        // error if the date is not valid
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            throw new \Exception('Invalid input date, please use YYYY-MM-DD format.');
+        }
+
+        $url .= "?date={$date}";
+
+        return $this->requestApi('get', $url, ['headers' => $this->getAuthorizationHeaderArray()]);
+    }
+
+
+    /**
      * Search companies by multiple siren numbers
      * Exact search only
      * 
@@ -206,20 +243,6 @@ class InpiRNEClient implements InpiRNEClientInterface
         return $data;
     }
 
-
-    /**
-     * Search a single company by its national deposit number
-     * 
-     * @param string $nationalDepositNumber
-     * 
-     * @throws GuzzleException
-     * @return array
-     */
-    public function searchCompanyByNationalDepositNumber(string $nationalDepositNumber): array
-    {
-        return $this->requestApi('get', "api/companies?numnat={$nationalDepositNumber}", ['headers' => $this->getAuthorizationHeaderArray()]);
-    }
-
     /**
      * Search companies by its activity sector
      * 
@@ -326,29 +349,6 @@ class InpiRNEClient implements InpiRNEClientInterface
         $data = $this->decorateResponse($data);
 
         return $data;
-    }
-
-    /**
-     * Search a single company old state by its siren and date
-     * 
-     * @param string $siren
-     * @param string $date (YYYY-MM-DD format)
-     * 
-     * @throws GuzzleException
-     * @return array
-     */
-    public function searchCompanyOldStateBySiren(string $siren, string $date): array
-    {
-        $url = "api/companies/{$siren}";
-
-        // error if the date is not valid
-        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
-            throw new \Exception('Invalid input date, please use YYYY-MM-DD format.');
-        }
-
-        $url .= "?date={$date}";
-
-        return $this->requestApi('get', $url, ['headers' => $this->getAuthorizationHeaderArray()]);
     }
 
     /**

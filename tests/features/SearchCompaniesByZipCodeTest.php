@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompaniesByZipCodeTest extends MockeryTestCase
+class SearchCompaniesByZipCodeTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -61,10 +61,5 @@ class SearchCompaniesByZipCodeTest extends MockeryTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input zip code, please use a 5 length number.");
         $client->searchCompaniesByZipCode('123456');
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

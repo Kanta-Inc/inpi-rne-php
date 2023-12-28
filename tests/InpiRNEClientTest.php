@@ -6,10 +6,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class InpiRNEClientTest extends MockeryTestCase
+class InpiRNEClientTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -137,10 +136,5 @@ class InpiRNEClientTest extends MockeryTestCase
         $this->expectExceptionMessage("Unknown error");
 
         $this->inpiRNEClient->authenticate('unknow_exception_username', 'unknow_exception_password');
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

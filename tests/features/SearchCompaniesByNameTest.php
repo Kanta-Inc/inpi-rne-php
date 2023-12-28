@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompaniesByNameTest extends MockeryTestCase
+class SearchCompaniesByNameTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -40,10 +40,5 @@ class SearchCompaniesByNameTest extends MockeryTestCase
 
         $this->assertEquals('895201283', $result['results'][0]['siren']);
         $this->assertEquals('63ae15152336741e76140cfb', $result['results'][0]['id']);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }

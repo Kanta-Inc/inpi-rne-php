@@ -2,14 +2,14 @@
 
 namespace InpiRNEClient;
 
-use Mockery;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SearchCompaniesByActivitySectorTest extends MockeryTestCase
+class SearchCompaniesByActivitySectorTest extends TestCase
 {
     private InpiRNEClientInterface $inpiRNEClient;
 
@@ -60,10 +60,5 @@ class SearchCompaniesByActivitySectorTest extends MockeryTestCase
 
         // Testez le comportement de recherche
         $this->inpiRNEClient->searchCompaniesByActivitySector('BAD_ACTIVITY_SECTOR');
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
     }
 }
