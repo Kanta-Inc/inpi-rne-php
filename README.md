@@ -1,4 +1,4 @@
-# InpiRNEClient
+# Inpi RNE PHP
 [![Build Status](https://github.com/kanta-inc/inpi-rne-php/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kanta-inc/inpi-rne-php/actions?query=branch%3Amain)
 [![Latest Stable Version](http://poser.pugx.org/kanta-inc/inpi-rne-php/v)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
 [![Total Downloads](http://poser.pugx.org/kanta-inc/inpi-rne-php/downloads)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
@@ -9,8 +9,11 @@
 PHP library to access the INPI RNE API
 
 ## Description
-`InpiRNEClient` is a PHP library to easily interact with RNE INPI API. It allow users to authenticate, get data about french companies with their identification number (siren number).
+Inpi RNE PHP is a PHP library to easily interact with RNE INPI API. It allow users to authenticate, get data about french companies with their identification number (siren number).
 This version is based on the INPI Documentation located in data folder of this repository
+
+## Requirements
+PHP 8.1.0 and later.
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install this package :
@@ -22,7 +25,7 @@ If you don't provide it you have to use the authenticate method providing your u
 Then you can get your token back with the getToken method.
 
 ```
-use InpiRNEClient;
+use InpiRNEClient\InpiRNEClient;
 
 $client = new InpiRNEClient('token');
 $data = $client->searchCompanyBySiren('889924320');
@@ -33,10 +36,6 @@ $client = new InpiRNEClient();
 $client->authenticate('votre_username', 'votre_password');
 $data = $client->searchCompanyBySiren('889924320');
 ```
-
-## Features
-- Authentication
-- Get company data from their siren number
 
 ## Tests
 To execute tests of the package :
