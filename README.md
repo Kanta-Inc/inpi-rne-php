@@ -4,6 +4,7 @@
 [![Total Downloads](http://poser.pugx.org/kanta-inc/inpi-rne-php/downloads)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
 [![License](http://poser.pugx.org/kanta-inc/inpi-rne-php/license)](https://packagist.org/packages/kanta-inc/inpi-rne-php) 
 [![PHP Version Require](http://poser.pugx.org/kanta-inc/inpi-rne-php/require/php)](https://packagist.org/packages/kanta-inc/inpi-rne-php)
+[![codecov](https://codecov.io/gh/Kanta-Inc/inpi-rne-php/graph/badge.svg?token=VLK7SM56AZ)](https://codecov.io/gh/Kanta-Inc/inpi-rne-php)
 
 PHP library to access the INPI RNE API
 
