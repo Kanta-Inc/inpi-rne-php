@@ -6,7 +6,7 @@
 [![PHP Version Require](http://poser.pugx.org/kanta-inc/inpi-rne-php/require/php)](https://packagist.org/packages/kanta-inc/inpi-rne-php)
 [![codecov](https://codecov.io/gh/Kanta-Inc/inpi-rne-php/graph/badge.svg?token=VLK7SM56AZ)](https://codecov.io/gh/Kanta-Inc/inpi-rne-php)
 
-PHP library to access the INPI RNE API
+PHP library to access the INPI RNE (Registre National des Entreprises)
 
 ## Description
 Inpi RNE PHP is a PHP library to easily interact with RNE INPI API. It allow users to authenticate, get data about french companies with their identification number (siren number).
