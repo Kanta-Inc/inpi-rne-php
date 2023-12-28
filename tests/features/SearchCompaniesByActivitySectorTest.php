@@ -56,7 +56,7 @@ class SearchCompaniesByActivitySectorTest extends TestCase
         $this->inpiRNEClient = new InpiRNEClient('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid input activity sector, please use one of the following values: ' . implode(', ', $this->inpiRNEClient::VALID_ACTIVITY_SECTORS) . '.');
+        $this->expectExceptionMessage('Invalid input activity sector, please use one of the following values: ' . implode(', ', InpiRNEClient::VALID_ACTIVITY_SECTORS) . '.');
 
         // Testez le comportement de recherche
         $this->inpiRNEClient->searchCompaniesByActivitySector('BAD_ACTIVITY_SECTOR');

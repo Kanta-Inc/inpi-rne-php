@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class InpiRNEClient
- * 
+ *
  * @package InpiRNEClient
  */
 class InpiRNEClient implements InpiRNEClientInterface
@@ -15,8 +15,8 @@ class InpiRNEClient implements InpiRNEClientInterface
     private Client $client;
     private ?string $token;
 
-    private const DEFAULT_PAGE_SIZE = 20;
-    private const BASE_URI = 'https://registre-national-entreprises.inpi.fr/';
+    public const DEFAULT_PAGE_SIZE = 20;
+    public const BASE_URI = 'https://registre-national-entreprises.inpi.fr/';
 
     public const VALID_ACTIVITY_SECTORS = [
         'AGENT_COMMERCIAL',
@@ -35,7 +35,7 @@ class InpiRNEClient implements InpiRNEClientInterface
      * InpiRNEClient constructor.
      * If a token is provided, it will be used for the requests
      * Otherwise, the user will have to authenticate first
-     * 
+     *
      * @param string|null $token
      * @param Client|null $client
      */
@@ -50,10 +50,10 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Authentify the user and store the token in the client
-     * 
+     *
      * @param string $username
      * @param string $password
-     * 
+     *
      * @throws GuzzleException
      * @return void
      */
@@ -73,7 +73,7 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Get the token
-     * 
+     *
      * @return string
      */
     public function getToken(): string
@@ -84,24 +84,26 @@ class InpiRNEClient implements InpiRNEClientInterface
     /**
      * Search a company by its siren number
      * Exact search only
-     * 
+     *
      * @param string $siren
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
     public function searchCompanyBySiren(string $siren): array
     {
         // error if the siren is not 9 length number
-        if (!preg_match('/^\d{9}$/', $siren)) throw new \Exception('Invalid input siren, please use a 9 length number.');
+        if (!preg_match('/^\d{9}$/', $siren)) {
+            throw new \Exception('Invalid input siren, please use a 9 length number.');
+        }
         return $this->requestApi("get", "api/companies/{$siren}", ['headers' => $this->getAuthorizationHeaderArray()]);
     }
 
     /**
      * Search a single company by its national deposit number
-     * 
+     *
      * @param string $nationalDepositNumber
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -112,10 +114,10 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Search a single company old state by its siren and date
-     * 
+     *
      * @param string $siren
      * @param string $date (YYYY-MM-DD format)
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -137,14 +139,14 @@ class InpiRNEClient implements InpiRNEClientInterface
     /**
      * Search companies by multiple siren numbers
      * Exact search only
-     * 
+     *
      * You can specify page size and page number
      * iterate over the pages to get all the results
-     * 
+     *
      * @param array $sirens
      * @param int $pageSize
      * @param int $page
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -174,14 +176,14 @@ class InpiRNEClient implements InpiRNEClientInterface
     /**
      * Search companies by their name
      * Contains type search (starts with, contains, ends with)
-     * 
+     *
      * You can specify page size and page number
      * iterate over the pages to get all the results
-     * 
+     *
      * @param string $name
      * @param int $pageSize
      * @param int $page
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -204,15 +206,15 @@ class InpiRNEClient implements InpiRNEClientInterface
     /**
      * Search a company by its submission dates
      * submissionDateFrom (included) and submissionDateTo (not included), at least from is required
-     * 
+     *
      * You can specify page size and page number
      * iterate over the pages to get all the results
-     * 
+     *
      * @param string $submissionDateFrom (YYYY-MM-DD format) - included
      * @param ?string $submissionDateTo (YYYY-MM-DD format) - not included
      * @param int $pageSize
      * @param int $page
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -245,14 +247,14 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Search companies by its activity sector
-     * 
+     *
      * You can specify page size and page number
      * iterate over the pages to get all the results
-     * 
+     *
      * @param string $activitySector
      * @param int $pageSize
      * @param int $page
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -279,14 +281,14 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Search companies by its category code
-     * 
+     *
      * You can specify page size and page number
      * iterate over the pages to get all the results
-     * 
+     *
      * @param string $categoryCode
      * @param int $pageSize
      * @param int $page
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -315,14 +317,14 @@ class InpiRNEClient implements InpiRNEClientInterface
      * Search companies by its zip codes
      * INPI DOCUMENTATION AMBIGUITY WARNING - Seems to be a array of only one zip code (issue with the INPI API)
      * If multiple zip codes are provided to the API, results are not correct
-     * 
+     *
      * You can specify page size and page number
      * iterate over the pages to get all the results
-     * 
-     * @param array $zipCodes
+     *
+     * @param string $zipCode
      * @param int $pageSize
      * @param int $page
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -354,11 +356,10 @@ class InpiRNEClient implements InpiRNEClientInterface
     /**
      * add a decoration to the response
      * resultsCount, hasMoreResults, nextPageUrl
-     * 
+     *
      * @param array $data
-     * @param string $url
      * @param int $pageSize
-     * 
+     *
      * @throws GuzzleException
      * @return array
      */
@@ -369,7 +370,9 @@ class InpiRNEClient implements InpiRNEClientInterface
         $dataCount = count($data);
         $decoratedData['resultsCount'] = $dataCount;
         $decoratedData['hasMoreResults'] = false;
-        if ($dataCount === $pageSize) $decoratedData['hasMoreResults'] = true;
+        if ($dataCount === $pageSize) {
+            $decoratedData['hasMoreResults'] = true;
+        }
         $decoratedData['results'] = $data;
 
         return $decoratedData;
@@ -377,7 +380,7 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Get the authorization header array
-     * 
+     *
      * @throws \Exception
      * @return array
      */
@@ -393,10 +396,10 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Add the page parameter to the url
-     * 
+     *
      * @param string $url
      * @param int $page
-     * 
+     *
      * @throws \Exception
      * @return string
      */
@@ -410,10 +413,10 @@ class InpiRNEClient implements InpiRNEClientInterface
 
     /**
      * Add the page size parameter to the url
-     * 
+     *
      * @param string $url
      * @param int $pageSize
-     * 
+     *
      * @throws \Exception
      * @return string
      */
@@ -425,24 +428,44 @@ class InpiRNEClient implements InpiRNEClientInterface
         return $url . "pageSize={$pageSize}&";
     }
 
+    /**
+     * Request the API
+     *
+     * @param string $method
+     * @param string $url
+     * @param array $options
+     *
+     * @throws GuzzleException
+     * @return array
+     */
     private function requestApi(string $method, string $url, array $options = []): array
     {
+        $data = [];
         try {
             $response = $this->client->request($method, $url, $options);
-            return json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody(), true);
         } catch (GuzzleException $e) {
             $this->catchResponseErrors($e);
         }
+        return $data;
     }
 
-    private function catchResponseErrors(GuzzleException $e)
+    /**
+     * Catch the response errors
+     *
+     * @param GuzzleException $e
+     *
+     * @throws \Exception
+     * @return void
+     */
+    private function catchResponseErrors(GuzzleException $e): void
     {
         // if 401, the credentials are invalid
         if ($e->getCode() === 401) {
             throw new \Exception('Bad credentials');
-        } else if ($e->getCode() === 403) {
+        } elseif ($e->getCode() === 403) {
             throw new \Exception('Forbidden');
-        } else if ($e->getCode() === 429) {
+        } elseif ($e->getCode() === 429) {
             throw new \Exception('Too many requests');
         } else {
             throw new \Exception('Unknown error', 0, $e);
