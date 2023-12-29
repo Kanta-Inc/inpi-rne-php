@@ -225,9 +225,11 @@ class SearchCompanies extends RNEClient implements SearchCompaniesInterface
      */
     public function searchByCategoryCode(string $categoryCode, int $pageSize = self::DEFAULT_PAGE_SIZE, int $page = 1): array
     {
-        // error if the category code is not 8 length number
-        if (!preg_match('/^\d{8}$/', $categoryCode)) {
-            throw new \Exception('Invalid input category code, please use a 8 length number.');
+        $categoryCodes = CategoryCodes::getCategoryCodes();
+
+        // error if the category code is not in the array
+        if (!in_array($categoryCode, $categoryCodes)) {
+            throw new \Exception('Invalid input category code, please use a valid category code.');
         }
 
         $url = "api/companies?";
