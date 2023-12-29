@@ -51,7 +51,7 @@ class SearchCompaniesByCategoryCodeTest extends TestCase
         $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Invalid input category code, please use a 8 length number.');
+        $this->expectExceptionMessage('Invalid input category code, please use a valid category code.');
 
         $this->RNEClient->searchByCategoryCode('145d');
     }
