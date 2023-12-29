@@ -1,0 +1,9 @@
+{
+    "id": "idnumberzzz",
+    "siren": "NNNNNNNNN",
+    "denomination": "Nom Société",
+    "dateDepot": "2022-12-25",
+    "typeRdd": [{
+    "typeActe": "Proces-verbal d'assemblee generale ordinaire"
+    }]
+}

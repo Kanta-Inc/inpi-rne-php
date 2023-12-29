@@ -16,6 +16,9 @@
     <!-- <testsuite name="DifferentialSearch">
       <directory>./tests/features/DifferentialSearch/</directory>
     </testsuite> -->
+    <testsuite name="SearchActsTest">
+      <directory>./tests/features/SearchActs/</directory>
+    </testsuite>
   </testsuites>
   <source>
     <include>

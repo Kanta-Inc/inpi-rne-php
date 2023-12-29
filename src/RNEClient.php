@@ -178,6 +178,18 @@ class RNEClient implements RNEClientInterface
         return $data;
     }
 
+    protected function requestFileApi(string $method, string $url, array $options = []): string
+    {
+        $data = [];
+        try {
+            $response = $this->client->request($method, $url, $options);
+            $data = $response->getBody()->getContents();
+        } catch (GuzzleException $e) {
+            $this->catchResponseErrors($e);
+        }
+        return $data;
+    }
+
     /**
      * Catch the response errors
      *
@@ -194,6 +206,8 @@ class RNEClient implements RNEClientInterface
             throw new \Exception('Bad credentials');
         } elseif ($e->getCode() === 403) {
             throw new \Exception('Forbidden');
+        } elseif ($e->getCode() === 404) {
+            throw new \Exception('Not found');
         } elseif ($e->getCode() === 429) {
             throw new \Exception('Too many requests');
         } elseif ($e->getCode() === 500) {

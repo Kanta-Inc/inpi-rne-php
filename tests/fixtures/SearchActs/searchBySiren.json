@@ -1,0 +1,62 @@
+{
+    "actes": [
+    {
+    "id": "6385db8b901325760b0c0d71",
+    "idOdrncs": 1409112,
+    "siren": "113277693",
+    "denomination": "VITALAC RUMINANT",
+    "dateDepot": "2021-08-02",
+    "nomDocument": "GU_ACTE_113277693_20221118_ENT21-000004478_1",
+    "nomDocumentOrigine": "GU_ACTE_113277693_20221118_ENT21-000004478_1",
+    "confidentiality": "Public",
+    "dateReceptionRne": "2022-11-18",
+    "tailleFichier": "56257",
+    "documentExtension": "PDF",
+    "nbPages": 1,
+    "natureArchive": "A",
+    "path": "/rne/Actes_PDF/2022/11/18/GU_ACTE_113277693_20221118_ENT21-000004478_1/",
+    "pathOrigine":
+    "/opendatarncs/public/Actes_PDF/flux/2022/11/18/GU_ACTE_113277693_20221118_ENT21-000004478_1/",
+    "typeDocument": "original électronique",
+    "numNat": "ENT21-000004478",
+    "numNatChrono": "1",
+    "valideParCfe": "oui",
+    "nomDocumentDeposant": "testPub.pdf",
+    "typeRdd": [
+    {
+    "typeActe": "Copie des statuts"
+    }
+    ]
+    },
+    {
+    "id": "6385db8b901325760b0c0d73",
+    "idOdrncs": 1409113,
+    "siren": "113277693",
+    "denomination": "VITALAC RUMINANT",
+    "dateDepot": "2021-08-02",
+    "nomDocument": "GU_ACTE_113277693_20221118_ENT21-000004478_2",
+    "nomDocumentOrigine": "GU_ACTE_113277693_20221118_ENT21-000004478_2",
+    "confidentiality": "Public",
+    "dateReceptionRne": "2022-11-18",
+    "tailleFichier": "56257",
+    "documentExtension": "PDF",
+    "nbPages": 1,
+    "natureArchive": "A",
+    "path": "/rne/Actes_PDF/2022/11/18/GU_ACTE_113277693_20221118_ENT21-000004478_2/",
+    "pathOrigine":
+    "/opendatarncs/public/Actes_PDF/flux/2022/11/18/GU_ACTE_113277693_20221118_ENT21-000004478_2/",
+    "typeDocument": "original électronique",
+    "numNat": "ENT21-000004478",
+    "numNatChrono": "2",
+    "valideParCfe": "oui",
+    "nomDocumentDeposant": "testPubStats.pdf",
+    "typeRdd": [
+    {
+    "typeActe": "Copie des statuts"
+    }
+    ]
+    }
+    ],
+    "bilans": [],
+    "bilansSaisis": []
+}
