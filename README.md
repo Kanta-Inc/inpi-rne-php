@@ -28,13 +28,13 @@ Then you can get your token back with the getToken method.
 use RNEClient\RNEClient;
 
 $client = new RNEClient('token');
-$data = $client->searchCompanyBySiren('889924320');
+$data = $client->searchBySiren('889924320');
 
 // OR
 
 $client = new RNEClient();
 $client->authenticate('votre_username', 'votre_password');
-$data = $client->searchCompanyBySiren('889924320');
+$data = $client->searchBySiren('889924320');
 ```
 
 ## Tests

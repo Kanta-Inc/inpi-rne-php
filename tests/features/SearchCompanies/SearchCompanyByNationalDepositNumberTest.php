@@ -11,26 +11,26 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompanyByNationalDepositNumberTest extends TestCase
 {
-    private RNEClientInterface $RNEClient;
+    private SearchCompaniesInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->RNEClient = new RNEClient();
+        $this->RNEClient = new SearchCompanies();
     }
 
     public function testSearchCompanyByNationalDepositNumber(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../fixtures/searchCompanyByNationalDepositNumber.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByNationalDepositNumber.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->RNEClient->searchCompanyByNationalDepositNumber('23548795564');
+        $result = $this->RNEClient->searchByNationalDepositNumber('23548795564');
         $this->assertIsArray($result);
         $this->assertEquals('889924320', $result['siren']);
         $this->assertEquals('63ade9a1e0e85a58e30d53cd', $result['id']);
@@ -40,25 +40,25 @@ class SearchCompanyByNationalDepositNumberTest extends TestCase
 
     public function testSearchCompanyByNationalDepositNumberWithBadSiren(): void
     {
-        $client = new RNEClient();
+        $client = new SearchCompanies();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
-        $client->searchCompanyBySiren('bad_siren');
+        $client->searchBySiren('bad_siren');
     }
 
     public function testSearchCompanyByNationalDepositNumberWithShortSiren(): void
     {
-        $client = new RNEClient();
+        $client = new SearchCompanies();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
-        $client->searchCompanyBySiren('12345678');
+        $client->searchBySiren('12345678');
     }
 
     public function testSearchCompanyByNationalDepositNumberWithLongSiren(): void
     {
-        $client = new RNEClient();
+        $client = new SearchCompanies();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid input siren, please use a 9 length number.");
-        $client->searchCompanyBySiren('1234567890');
+        $client->searchBySiren('1234567890');
     }
 }

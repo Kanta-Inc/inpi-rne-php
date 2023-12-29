@@ -11,26 +11,26 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesBySubmissionDateTest extends TestCase
 {
-    private RNEClientInterface $RNEClient;
+    private SearchCompaniesInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->RNEClient = new RNEClient();
+        $this->RNEClient = new SearchCompanies();
     }
 
     public function testSearchCompaniesBySubmissionDate(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../fixtures/searchCompaniesBySubmissionDate.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchBySubmissionDate.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->RNEClient->searchCompaniesBySubmissionDate('2022-04-01', '2022-04-02');
+        $result = $this->RNEClient->searchBySubmissionDate('2022-04-01', '2022-04-02');
         $this->assertIsArray($result);
 
         $this->assertCount(20, $result['results']);
@@ -45,11 +45,11 @@ class SearchCompaniesBySubmissionDateTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid input date format, please use YYYY-MM-DD format.');
 
-        $this->RNEClient->searchCompaniesBySubmissionDate('20204-01', '2022-042');
+        $this->RNEClient->searchBySubmissionDate('20204-01', '2022-042');
     }
 }
