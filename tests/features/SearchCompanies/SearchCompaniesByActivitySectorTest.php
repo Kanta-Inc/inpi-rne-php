@@ -11,26 +11,26 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesByActivitySectorTest extends TestCase
 {
-    private RNEClientInterface $RNEClient;
+    private SearchCompaniesInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->RNEClient = new RNEClient();
+        $this->RNEClient = new SearchCompanies();
     }
 
     public function testSearchCompaniesByActivitySector(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../fixtures/searchCompaniesByActivitySector.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByActivitySector.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->RNEClient->searchCompaniesByActivitySector('AGENT_COMMERCIAL');
+        $result = $this->RNEClient->searchByActivitySector('AGENT_COMMERCIAL');
         $this->assertIsArray($result);
 
         // count($result) = 2
@@ -53,12 +53,12 @@ class SearchCompaniesByActivitySectorTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid input activity sector, please use one of the following values: ' . implode(', ', RNEClient::VALID_ACTIVITY_SECTORS) . '.');
 
         // Testez le comportement de recherche
-        $this->RNEClient->searchCompaniesByActivitySector('BAD_ACTIVITY_SECTOR');
+        $this->RNEClient->searchByActivitySector('BAD_ACTIVITY_SECTOR');
     }
 }

@@ -11,26 +11,26 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesByCategoryCodeTest extends TestCase
 {
-    private RNEClientInterface $RNEClient;
+    private SearchCompaniesInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->RNEClient = new RNEClient();
+        $this->RNEClient = new SearchCompanies();
     }
 
     public function testSearchCompaniesByCategoryCode(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../fixtures/searchCompaniesByCategoryCode.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByCategoryCode.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->RNEClient->searchCompaniesByCategoryCode('01010101');
+        $result = $this->RNEClient->searchByCategoryCode('01010101');
         $this->assertIsArray($result);
 
         $this->assertCount(20, $result['results']);
@@ -48,11 +48,11 @@ class SearchCompaniesByCategoryCodeTest extends TestCase
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Invalid input category code, please use a 8 length number.');
 
-        $this->RNEClient->searchCompaniesByCategoryCode('145d');
+        $this->RNEClient->searchByCategoryCode('145d');
     }
 }

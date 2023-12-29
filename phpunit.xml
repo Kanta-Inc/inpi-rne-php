@@ -10,36 +10,12 @@
     <testsuite name="RNEClientTest">
       <directory>./tests/</directory>
     </testsuite>
-    <testsuite name="SearchCompanyBySirenTest">
-      <file>./tests/features/SearchCompanyBySirenTest.php</file>
+    <testsuite name="SearchCompaniesTest">
+      <directory>./tests/features/SearchCompanies/</directory>
     </testsuite>
-    <testsuite name="SearchCompaniesByActivitySectorTest">
-      <file>./tests/features/SearchCompaniesByActivitySectorTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompaniesByCategoryCodeTest">
-      <file>./tests/features/SearchCompaniesByCategoryCodeTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompaniesByNameTest">
-      <file>./tests/features/SearchCompaniesByNameTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompaniesBySirenTest">
-      <file>./tests/features/SearchCompaniesBySirenTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompaniesBySubmissionDateTest">
-      <file>./tests/features/SearchCompaniesBySubmissionDateTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompaniesByZipCodeTest">
-      <file>./tests/features/SearchCompaniesByZipCodeTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompanyByNationalDepositNumberTest">
-      <file>./tests/features/SearchCompanyByNationalDepositNumberTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompanyBySirenTest">
-      <file>./tests/features/SearchCompanyBySirenTest.php</file>
-    </testsuite>
-    <testsuite name="SearchCompanyOldStateBySirenTest">
-      <file>./tests/features/SearchCompanyOldStateBySirenTest.php</file>
-    </testsuite>
+    <!-- <testsuite name="DifferentialSearch">
+      <directory>./tests/features/DifferentialSearch/</directory>
+    </testsuite> -->
   </testsuites>
   <source>
     <include>

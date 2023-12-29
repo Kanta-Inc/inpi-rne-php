@@ -11,26 +11,26 @@ use PHPUnit\Framework\TestCase;
 
 class SearchCompaniesByNameTest extends TestCase
 {
-    private RNEClientInterface $RNEClient;
+    private SearchCompaniesInterface $RNEClient;
 
     protected function setUp(): void
     {
-        $this->RNEClient = new RNEClient();
+        $this->RNEClient = new SearchCompanies();
     }
 
     public function testSearchCompaniesByName(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../fixtures/searchCompaniesByName.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByName.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
         $mockedClient = new Client(['handler' => $handlerStack]);
 
-        $this->RNEClient = new RNEClient('fake_token', $mockedClient);
+        $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
         // Testez le comportement de recherche
-        $result = $this->RNEClient->searchCompaniesByName('Kanta');
+        $result = $this->RNEClient->searchByName('Kanta');
         $this->assertIsArray($result);
 
         $this->assertCount(20, $result['results']);
