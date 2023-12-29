@@ -21,7 +21,7 @@ class SearchCompaniesByCategoryCodeTest extends TestCase
     public function testSearchCompaniesByCategoryCode(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByCategoryCode.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/SearchCompanies/searchByCategoryCode.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);

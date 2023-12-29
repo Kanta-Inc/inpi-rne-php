@@ -21,7 +21,7 @@ class SearchCompanyByNationalDepositNumberTest extends TestCase
     public function testSearchCompanyByNationalDepositNumber(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByNationalDepositNumber.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/SearchCompanies/searchByNationalDepositNumber.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);

@@ -21,7 +21,7 @@ class SearchCompaniesByActivitySectorTest extends TestCase
     public function testSearchCompaniesByActivitySector(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByActivitySector.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/SearchCompanies/searchByActivitySector.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);

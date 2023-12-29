@@ -21,7 +21,7 @@ class SearchCompaniesBySirenTest extends TestCase
     public function testSearchCompaniesBySiren(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchByMultipleSiren.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/SearchCompanies/searchByMultipleSiren.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
