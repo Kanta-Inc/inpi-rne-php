@@ -69,7 +69,7 @@ jobs:
 
     - name: Generate documentation
       # create documentation folder if not exists then run phpdoc
-      run: mkdir -p documentation && docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:latest -d /src -t /documentation
+      run: docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:latest run -d src -t documentation
 
     - name: Deploy documentation
       uses: JamesIves/github-pages-deploy-action@4.1.4
