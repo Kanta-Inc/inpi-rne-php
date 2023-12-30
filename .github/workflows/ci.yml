@@ -68,7 +68,7 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Generate documentation
-      run: docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:latest -d /data/src -t /data/documentation
+      run: docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:latest -d src -t documentation
 
     - name: Deploy documentation
       uses: JamesIves/github-pages-deploy-action@4.1.4
