@@ -21,7 +21,7 @@ class SearchCompaniesBySubmissionDateTest extends TestCase
     public function testSearchCompaniesBySubmissionDate(): void
     {
         // get from file
-        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/searchBySubmissionDate.json');
+        $fakeResponse = file_get_contents(__DIR__ . '/../../fixtures/SearchCompanies/searchBySubmissionDate.json');
 
         $mockHandler = new MockHandler([new Response(200, [], $fakeResponse)]);
         $handlerStack = HandlerStack::create($mockHandler);
