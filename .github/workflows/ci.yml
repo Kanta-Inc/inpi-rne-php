@@ -13,27 +13,30 @@ on:
       - main
       - develop
       - feature/*
+      
+permissions:
+  contents: write
 
 jobs:
   tests:
-    name: Tests
+    name: Tests 🧪
     
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up PHP
+    - name: Set up PHP 🐘
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
         coverage: xdebug
         extensions: zip
 
-    - name: Install dependencies
+    - name: Install dependencies 📦
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Run PHPUnit tests
+    - name: Run PHPUnit tests 🧪
       uses: php-actions/phpunit@v3
       env:
         XDEBUG_MODE: coverage
@@ -43,7 +46,7 @@ jobs:
         php_extensions: xdebug zip
         args: tests --coverage-clover ./coverage.xml
         
-    - name: Upload to Codecov
+    - name: Upload to Codecov 📊
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODE_COV_TOKEN }}
@@ -51,27 +54,28 @@ jobs:
         verbose: true
   
   documentation:
-    name: Documentation
+    name: Documentation 📚
     
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout 🛎️ 
+      uses: actions/checkout@v3
 
-    - name: Set up PHP
+    - name: Set up PHP 🐘
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
         extensions: zip
 
-    - name: Install dependencies
+    - name: Install dependencies 📦
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Generate documentation
+    - name: Generate documentation 📚
       # create documentation folder if not exists then run phpdoc
       run: docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:latest run -d src -t docs
 
-    - name: Deploy documentation
+    - name: Deploy documentation 🚀
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         branch: documentation
