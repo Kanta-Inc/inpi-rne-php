@@ -49,3 +49,29 @@ jobs:
         token: ${{ secrets.CODE_COV_TOKEN }}
         files: ./coverage.xml
         verbose: true
+  
+  documentation:
+    name: Documentation
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: zip
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Generate documentation
+      run: docker run --rm -v ${{ github.workspace }}:/data phpdoc/phpdoc:latest -d /data/src -t /data/documentation
+
+    - name: Deploy documentation
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages
+        folder: documentation
