@@ -20,11 +20,11 @@ permissions:
 jobs:
   tests:
     name: Tests 🧪
-    
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout 🛎️
+      uses: actions/checkout@v4
 
     - name: Set up PHP 🐘
       uses: shivammathur/setup-php@v2
@@ -55,21 +55,12 @@ jobs:
   
   documentation:
     name: Documentation 📚
-    
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout 🛎️ 
       uses: actions/checkout@v3
-
-    - name: Set up PHP 🐘
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: zip
-
-    - name: Install dependencies 📦
-      run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Generate documentation 📚
       # create documentation folder if not exists then run phpdoc
