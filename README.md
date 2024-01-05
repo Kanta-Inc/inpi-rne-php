@@ -13,7 +13,7 @@ Inpi RNE PHP is a PHP library to easily interact with RNE INPI API. It allow use
 This version is based on the INPI Documentation located in data folder of this repository
 
 ## Requirements
-PHP 8.1.0 and later.
+PHP 8.2.0 and later.
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install this package :
