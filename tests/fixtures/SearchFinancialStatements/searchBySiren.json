@@ -1,0 +1,71 @@
+{
+    "actes": [],
+    "bilans": [
+      {
+        "createdAt": "2022-12-23T12:33:04+01:00",
+        "updatedAt": "2022-12-23T12:33:04+01:00",
+        "id": "idnumberxyz",
+        "siren": "123456789",
+        "denomination": "DENOMINATION",
+        "dateDepot": "2020-11-16",
+        "numChrono": "12345",
+        "nomDocument": " CA_123456789_7501_2222B1111_2019_123456",
+        "path": "",
+        "dateCloture": "2019-09-30",
+        "typeBilan": "C",
+        "version": "2.0"
+      }
+    ],
+    "bilansSaisis": [
+      {
+        "createdAt": "2022-12-23T12:33:05+01:00",
+        "updatedAt": "2022-12-23T12:33:05+01:00",
+        "id": "idnumberzzz",
+        "siren": "123456789",
+        "denomination": "DENOMINATION",
+        "dateDepot": "2020-11-16",
+        "numChrono": "123456",
+        "nomDocument": "CA_123456789_7501_2222B1111_2019_123456",
+        "bilanSaisi": {
+          "bilan": {
+            "identite": {
+              "siren": "377708425",
+              "dateClotureExercice": "2021-12-31T00:00:00+01:00",
+              "codeGreffe": "9201",
+              "numDepot": "99",
+              "numGestion": "2023B000001",
+              "codeActivite": "6619B",
+              "dateClotureExerciceNMoins1": "2020-12-31T00:00:00+01:00",
+              "dureeExerciceN": "12",
+              "dureeExerciceNMoins1": "12",
+              "dateDepot": "2023-01-02T00:00:00+01:00",
+              "codeSaisie": "00",
+              "codeTypeBilan": "C",
+              "codeDevise": "EUR",
+              "codeOrigineDevise": "O",
+              "codeConfidentialite": "0",
+              "infoTraitement": "",
+              "denomination": "DENOMINATION",
+              "adresse": "92000 Nanterre"
+            },
+            "detail": {
+              "pages": [
+                {
+                  "numero": 1,
+                  "liasses": [
+                    {
+                      "code": "AB",
+                      "m1": "000000000001220",
+                      "m2": "000000000001220",
+                      "m3": "",
+                      "m4": ""
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }

@@ -178,6 +178,18 @@ class RNEClient implements RNEClientInterface
         return $data;
     }
 
+    protected function requestFileApi(string $method, string $url, array $options = []): string
+    {
+        $data = [];
+        try {
+            $response = $this->client->request($method, $url, $options);
+            $data = $response->getBody()->getContents();
+        } catch (GuzzleException $e) {
+            $this->catchResponseErrors($e);
+        }
+        return $data;
+    }
+
     /**
      * Catch the response errors
      *
