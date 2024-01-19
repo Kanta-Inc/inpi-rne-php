@@ -1,8 +1,13 @@
 {
-    "id": " idnumberxyz",
-    "siren": "NNNNNNNNN",
-    "denomination": "Nom Société",
-    "dateDepot": "2022-12-25",
-    "dateCloture": "2022-12-31",
-    "typeBilan": "C"
+    "updatedAt": "2022-12-23T12:33:04+01:00",
+    "siren": "12345678",
+    "denomination": "DENOMINATION",
+    "dateDepot": "2020-11-16",
+    "numChrono": "12345",
+    "nomDocument": "CA_123456789_7501_2222B1111_2019_123456",
+    "confidentiality": "Public",
+    "id": "idnumberxyz",
+    "dateCloture": "2019-09-30",
+    "typeBilan": "C",
+    "version": "2.0"
 }

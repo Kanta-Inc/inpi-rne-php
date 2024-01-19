@@ -32,25 +32,23 @@ class SearchFinancialStatements extends RNEClient implements SearchFinancialStat
     }
 
     /**
-     * Search balance sheet data by its id
-     * Exact search only
+     * Get balance sheet data by its id
      *
      * @param string $id
      *
      * @throws GuzzleException
      * @return array
      */
-    public function searchById(string $id): array
+    public function getDataById(string $id): array
     {
         return $this->requestApi("get", "api/bilan-saisis/{$id}", ['headers' => $this->getAuthorizationHeaderArray()]);
     }
 
     /**
      * Get balance sheet metadata by its id
-     * Exact search only
      *
      * @param string $id
-     *
+     * 
      * @throws GuzzleException
      * @return array
      */
