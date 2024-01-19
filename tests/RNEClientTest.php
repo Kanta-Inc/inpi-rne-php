@@ -57,8 +57,8 @@ class RNEClientTest extends TestCase
         $this->RNEClient = new RNEClient(null, $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Bad request");
+        $this->expectException(INPIException::class);
+        $this->expectExceptionMessage(INPIException::BAD_REQUEST_ERROR);
 
         $this->RNEClient->authenticate('fake_username', 'fake_password');
     }
@@ -88,8 +88,8 @@ class RNEClientTest extends TestCase
         $this->RNEClient = new RNEClient(null, $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Bad credentials");
+        $this->expectException(INPIException::class);
+        $this->expectExceptionMessage(INPIException::BAD_CREDENTIALS_ERROR);
 
         $this->RNEClient->authenticate('fake_username', 'fake_password');
     }
@@ -108,8 +108,8 @@ class RNEClientTest extends TestCase
         $this->RNEClient = new RNEClient(null, $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Forbidden");
+        $this->expectException(INPIException::class);
+        $this->expectExceptionMessage(INPIException::FORBIDDEN_ERROR);
 
         $this->RNEClient->authenticate('forbidden_username', 'forbidden_password');
     }
@@ -128,8 +128,8 @@ class RNEClientTest extends TestCase
         $this->RNEClient = new RNEClient(null, $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Too many requests");
+        $this->expectException(INPIException::class);
+        $this->expectExceptionMessage(INPIException::TOO_MANY_REQUESTS_ERROR);
 
         $this->RNEClient->authenticate('too_many_requests_username', 'too_many_requests_password');
     }
@@ -148,8 +148,8 @@ class RNEClientTest extends TestCase
         $this->RNEClient = new RNEClient(null, $mockedClient);
 
         // Testez que l'exception est bien levée lors de l'authentification avec de mauvais identifiants
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Internal server error");
+        $this->expectException(INPIException::class);
+        $this->expectExceptionMessage(INPIException::INTERNAL_SERVER_ERROR);
 
         $this->RNEClient->authenticate('unknow_exception_username', 'unknow_exception_password');
     }

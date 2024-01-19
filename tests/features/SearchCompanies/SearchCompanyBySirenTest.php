@@ -46,8 +46,8 @@ class SearchCompanyBySirenTest extends TestCase
 
         $this->RNEClient = new SearchCompanies('fake_token', $mockedClient);
 
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Internal server error");
+        $this->expectException(INPIException::class);
+        $this->expectExceptionMessage(INPIException::INTERNAL_SERVER_ERROR);
         $this->RNEClient->searchBySiren('889924320');
     }
 

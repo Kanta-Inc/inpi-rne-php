@@ -189,15 +189,15 @@ class RNEClient implements RNEClientInterface
     protected function catchResponseErrors(GuzzleException $e): void
     {
         if ($e->getCode() === 400) {
-            throw new \Exception('Bad request');
+            throw new INPIException(INPIException::BAD_REQUEST_ERROR, 400, $e);
         } elseif ($e->getCode() === 401) {
-            throw new \Exception('Bad credentials');
+            throw new INPIException(INPIException::BAD_CREDENTIALS_ERROR, 401, $e);
         } elseif ($e->getCode() === 403) {
-            throw new \Exception('Forbidden');
+            throw new INPIException(INPIException::FORBIDDEN_ERROR, 403, $e);
         } elseif ($e->getCode() === 429) {
-            throw new \Exception('Too many requests');
+            throw new INPIException(INPIException::TOO_MANY_REQUESTS_ERROR, 429, $e);
         } elseif ($e->getCode() === 500) {
-            throw new \Exception('Internal server error');
+            throw new INPIException(INPIException::INTERNAL_SERVER_ERROR, 500, $e);
         } else {
             throw new \Exception('Unknown error', 0, $e);
         }
