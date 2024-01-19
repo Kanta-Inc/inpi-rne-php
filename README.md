@@ -13,7 +13,7 @@ Inpi RNE PHP is a PHP library to easily interact with RNE INPI API. It allow use
 This version is based on the INPI Documentation located in data folder of this repository
 
 ## Requirements
-PHP 8.1.0 and later.
+PHP 8.2.0 and later.
 
 ## Installation
 Use [Composer](https://getcomposer.org/) to install this package :
@@ -40,6 +40,13 @@ $data = $client->searchBySiren('889924320');
 ## Tests
 To execute tests of the package :
 vendor/bin/phpunit
+
+## Code coverage
+To maintain good code quality, we encourage contributors to have the best code coverage
+You have to generate the coverage report with a tool like xdebug when it's installed you can launch this command : 
+```XDEBUG_MODE=coverage ./vendor/bin/phpunit --configuration phpunit.xml --coverage-clover test-reports/cov.xml```
+
+If you use VSCode you can show it with this extension : [Coverage Gutters](https://github.com/ryanluker/vscode-coverage-gutters/)
 
 ## Authors
 Kanta Inc
